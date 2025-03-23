@@ -23,5 +23,4 @@ public class TimeTraceAop {
         logger.info(" {} 실행시간: {}ms", joinPoint.getSignature(), (endTime - startTime));
         return result;
     }
-
 }
