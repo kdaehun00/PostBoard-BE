@@ -30,6 +30,7 @@ public class PostCommandService {
 
         Post post = Post.builder()
                 .title(createPostRequestDto.getTitle())
+                .slug(createPostRequestDto.getSlug())
                 .content(createPostRequestDto.getContent())
                 .likes(0L)
                 .views(0L)
@@ -37,6 +38,22 @@ public class PostCommandService {
                 .build();
         jpaPostRepository.save(post);
         return post.getPostId();
+    }
+
+    public String toSlug(String title) {// 공백 -> 하이픈
+        return title.toLowerCase()
+                .replaceAll("[^a-z0-9가-힣\\s]", "") // 특수문자 제거
+                .replaceAll("\\s+", "-");
+    }
+
+    public String validSlug(String nickname, String slug) {
+        String baseSlug = slug;
+        int index = 1;
+        while (jpaPostRepository.existsByUser_NicknameAndSlug(nickname, slug)) {
+            slug = baseSlug + "-" + index;
+            index++;
+        }
+        return slug;
     }
 
     @CacheEvict(value = "postCache", key = "#postId")

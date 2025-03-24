@@ -9,6 +9,8 @@ import lombok.Setter;
 public class CreatePostRequestDto {
 
     private Long userId;
+    private String userNickname;
     private String title;
+    private String slug;
     private String content;
 }

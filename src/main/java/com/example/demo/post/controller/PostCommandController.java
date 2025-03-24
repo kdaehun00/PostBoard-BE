@@ -16,8 +16,10 @@ public class PostCommandController {
     }
 
     // post 생성
-    @PostMapping("/posts")
+    @PostMapping("/write")
     public ResponseEntity<PostResponseDto> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
+        String baseSlug = postCommandService.toSlug(createPostRequestDto.getTitle());
+        createPostRequestDto.setSlug(postCommandService.validSlug(createPostRequestDto.getUserNickname(), baseSlug));
         Long postId = postCommandService.createPost(createPostRequestDto);
         return ResponseEntity.created(URI.create("/posts/"+postId)).body(new PostResponseDto(postId, createPostRequestDto.getUserId()));
     }

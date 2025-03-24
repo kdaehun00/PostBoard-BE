@@ -26,9 +26,9 @@ public class PostQueryController {
     }
 
     // post 상세 보기
-    @GetMapping("/posts/{postId}")
-    public ResponseEntity<PostResponseDto> getPostDetail(@PathVariable Long postId) {
-        return ResponseEntity.ok().body(postQueryService.getPostDetail(postId));
+    @GetMapping("/@{userName}/{postSlug}")
+    public ResponseEntity<PostResponseDto> getPostDetail(@PathVariable String userName, @PathVariable String postSlug) {
+        return ResponseEntity.ok().body(postQueryService.getPostDetail(userName, postSlug));
     }
 
     // post 좋아요 초기

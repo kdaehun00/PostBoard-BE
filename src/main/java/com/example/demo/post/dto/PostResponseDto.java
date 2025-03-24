@@ -14,6 +14,7 @@ public class PostResponseDto {
     private Long postId;
     private Long userId;
     private String title;
+    private String postSlug;
     private String content;
     private Long likes;
     private Long views;
@@ -25,13 +26,13 @@ public class PostResponseDto {
     public PostResponseDto(Long postId, Long userId) {
         this.postId = postId;
         this.userId = userId;
-
     }
 
     public PostResponseDto (Post post) {
         this.postId = post.getPostId();
         this.userId = post.getUser().getId();
         this.title = post.getTitle();
+        this.postSlug = post.getSlug();
         this.content = post.getContent();
         this.likes = post.getLikes();
         this.views = post.getViews();

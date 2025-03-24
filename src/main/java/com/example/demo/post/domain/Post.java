@@ -31,6 +31,9 @@ public class Post {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "slug")
+    private String slug;
+
     @Lob
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
@@ -52,8 +55,9 @@ public class Post {
     private List<UserLikeToPost> userLikeToPosts = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, Long likes, Long views, User user) {
+    public Post(String title, String slug, String content, Long likes, Long views, User user) {
         this.title = title;
+        this.slug = slug;
         this.content = content;
         this.likes = likes;
         this.views = views;

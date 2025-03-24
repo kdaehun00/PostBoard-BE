@@ -35,8 +35,10 @@ public class PostQueryService {
     }
 
 
-    public PostResponseDto getPostDetail(Long postId) {
-        return new PostResponseDto(getByPost(postId));
+    public PostResponseDto getPostDetail(String userName, String postSlug) {
+        Post post = jpaPostRepository.findByUser_NicknameAndSlug(userName, postSlug)
+                .orElseThrow(() -> new IllegalArgumentException(PostMessage.NON_EXIST_POST.getMessage()));
+        return new PostResponseDto(post);
     }
 
     // 초기 게시물 Like 수와 내가 좋아요를 눌렀는지 확인
