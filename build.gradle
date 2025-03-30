@@ -36,9 +36,11 @@ jacocoTestReport {
 			])
 		}))
 	}
-	finalizedBy 'jacocoTestCoverageVerification'
 }
 
+test {
+	finalizedBy jacocoTestReport
+}
 
 repositories {
 	mavenCentral()
