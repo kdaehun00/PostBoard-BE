@@ -31,7 +31,7 @@ jobs:
 
       - name: Comment test coverage on PR
         id: jacoco
-        uses: madrapps/jacoco-report@v1.2
+        uses: madrapps/jacoco-report@v1.3
         with:
           title: 📝 Daniel's 테스트 커버리지 리포트
           # 생성된 XML 리포트 파일 경로를 지정합니다.
