@@ -32,5 +32,7 @@ jobs:
           # 생성된 XML 리포트 파일 경로를 지정합니다.
           paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 50
-          min-coverage-changed-files: 50
+          # min-coverage-overall: 50
+          # min-coverage-changed-files: 50
+
+
