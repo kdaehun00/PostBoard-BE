@@ -1,4 +1,4 @@
-package com.example.demo.post;
+package com.example.demo.service.post;
 
 import com.example.demo.post.domain.Post;
 import com.example.demo.post.repository.JPAPostRepository;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
-class LikePostCommandServiceTest {
+class LikePostCommandServiceTestTest {
 
     @InjectMocks
     private LikePostCommandService likePostCommandService;

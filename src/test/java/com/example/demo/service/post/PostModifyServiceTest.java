@@ -1,4 +1,4 @@
-package com.example.demo.post;
+package com.example.demo.service.post;
 
 import com.example.demo.post.domain.Post;
 import com.example.demo.post.dto.LikeViewResponseDto;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
-public class PostModifyServiceTest {
+class PostModifyServiceTest {
 
     @InjectMocks
     PostModifyService postModifyService;

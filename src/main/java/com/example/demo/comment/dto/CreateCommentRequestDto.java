@@ -1,13 +1,11 @@
 package com.example.demo.comment.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class CreateCommentRequestDto {
-    private final Long userId;
-    private final String content;
+    private Long userId;
+    private String content;
 
     public CreateCommentRequestDto(Long userId, String content) {
         this.userId = userId;

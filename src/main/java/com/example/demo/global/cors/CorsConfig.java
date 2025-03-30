@@ -1,4 +1,4 @@
-package com.example.demo.cors;
+package com.example.demo.global.cors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

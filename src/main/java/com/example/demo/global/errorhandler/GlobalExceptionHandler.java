@@ -1,4 +1,4 @@
-package com.example.demo.errorhandler;
+package com.example.demo.global.errorhandler;
 
 
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> runtimeExceptionHandler(final RuntimeException e) {
-        return ResponseEntity.status(404).body(e.getMessage());
+    public ResponseEntity<Map<String, Object>> runtimeExceptionHandler(final RuntimeException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED) // 또는 BAD_REQUEST
+                .body(Map.of("message", e.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

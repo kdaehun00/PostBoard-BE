@@ -10,19 +10,24 @@ import com.example.demo.user.dto.UserApiResponseDto;
 //enum
 
 //framework
+import com.example.demo.user.utils.GetUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 
 @Service
 public class ChangeUserInfoService {
 
     JPAUserRepository jpaUserRepository;
+    GetUser getUser;
 
     @Autowired
-    public ChangeUserInfoService(JPAUserRepository jpaUserRepository) {
+    public ChangeUserInfoService(JPAUserRepository jpaUserRepository, GetUser getUser) {
         this.jpaUserRepository = jpaUserRepository;
+        this.getUser = getUser;
     }
 
     // 사용자 정보 변경시 기존 정보 가져오기
@@ -32,7 +37,7 @@ public class ChangeUserInfoService {
         Get을 통해 db에서 직접 가져오는 게 나은지 모르겠습니다.
      */
     public UserApiResponseDto getUserInfo(Long userId) {
-        User user = getUserById(userId);
+        User user = getUser.getUserById(userId);
         return new UserApiResponseDto(user.getNickname(), user.getProfileImage());
     }
 
@@ -41,21 +46,18 @@ public class ChangeUserInfoService {
         if (jpaUserRepository.existsByNickname(nickname)) {
             throw new IllegalArgumentException(UserIdPwMessage.ALREADY_USE_NICKNAME.getMessage());
         }
-        getUserById(userId).setNickname(nickname);
+        getUser.getUserById(userId).setNickname(nickname);
     }
 
     @Transactional
     public void changeUserProfileImg(Long userId, String profileImg) {
-        getUserById(userId).setProfileImage(profileImg);
+        getUser.getUserById(userId).setProfileImage(profileImg);
     }
 
     @Transactional
     public void changeUserInfoPassword(Long userId, ChangeUserInfoRequestDTO userInfoDTO) {
-        getUserById(userId).setPassword(userInfoDTO.getNewPassword());
-    }
-
-    public User getUserById(Long userId) {
-        return jpaUserRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(UserIdPwMessage.NON_EXIST_USER.getMessage()));
+        User user = getUser.getUserById(userId);
+        user.setPassword(userInfoDTO.getNewPassword());
+        user.setPasswordUpdateDate(LocalDateTime.now());
     }
 }

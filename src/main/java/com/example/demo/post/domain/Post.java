@@ -5,17 +5,14 @@ import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Transactional
 @Table(name = "Posts")
 public class Post {
 
@@ -24,35 +21,41 @@ public class Post {
     @Column(name = "id")
     private Long postId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    @Setter
     @Column(name = "title")
     private String title;
+
+    @Lob
+    @Setter
+    @Column(name = "content", columnDefinition = "LONGTEXT")
+    private String content;
+
+    @Setter
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+    private Long likes;
+
+    @Setter
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+    private Long views;
 
     @Column(name = "slug")
     private String slug;
 
-    @Lob
-    @Column(name = "content", columnDefinition = "LONGTEXT")
-    private String content;
-
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    private Long likes;
-
-    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    private Long views;
-
     @CreationTimestamp
-    @Column(name = "create_post_date")
+    @Column(name = "create_date")
     private LocalDateTime createPostDate;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<UserLikeToPost> userLikeToPosts = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private final List<UserLikeToPost> userLikeToPosts = new ArrayList<>();
 
     @Builder
     public Post(String title, String slug, String content, Long likes, Long views, User user) {
@@ -62,9 +65,6 @@ public class Post {
         this.likes = likes;
         this.views = views;
         this.user = user;
-    }
-
-    public void updateLikes(int likes){
-        this.likes += likes;
+        this.createPostDate = LocalDateTime.now();
     }
 }

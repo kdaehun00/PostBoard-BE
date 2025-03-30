@@ -1,10 +1,8 @@
 package com.example.demo.post.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class LikeViewResponseDto {
     private Long views;
     private boolean likes;

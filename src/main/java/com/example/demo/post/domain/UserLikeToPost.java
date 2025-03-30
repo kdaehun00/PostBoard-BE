@@ -2,17 +2,10 @@ package com.example.demo.post.domain;
 
 import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 @Entity
-@Transactional
 @Table(name = "Likes")
 
 public class UserLikeToPost {

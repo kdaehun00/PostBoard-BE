@@ -1,6 +1,6 @@
 package com.example.demo.post.service;
 
-import com.example.demo.aop.ExecutionTime;
+import com.example.demo.global.aop.ExecutionTime;
 import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.UserLikeToPost;
 import com.example.demo.post.enums.PostMessage;

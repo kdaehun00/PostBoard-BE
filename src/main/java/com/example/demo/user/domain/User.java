@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -17,9 +15,7 @@ import java.util.List;
 // 1:N 관계 테이블
 import com.example.demo.post.domain.Post;
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)  // 기본 생성자 보호
-@Transactional
 @Entity
 @Table(name="Users")
 public class User {
@@ -32,26 +28,31 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Setter
     @Column(name = "password")
     private String password;
 
+    @Setter
     @Column(name = "nickname")
     private String nickname;
 
     @CreationTimestamp
-    @Column(name = "create_user_date")
+    @Column(name = "create_date", updatable = false)
     private LocalDateTime createUserDate;
 
-    @UpdateTimestamp
+    @Setter
     @Column(name = "password_update_date")
     private LocalDateTime passwordUpdateDate;
 
+    @Setter
     @Column(name = "status")
     private String status;
 
-    @Column(name = "delete_user_date")
+    @Setter
+    @Column(name = "delete_date")
     private Timestamp deleteUserDate;
 
+    @Setter
     @Column(name = "profile_image")
     private String profileImage;
 
@@ -72,5 +73,8 @@ public class User {
         this.nickname = nickname;
         this.status = status;
         this.profileImage = profileImage;
+        this.createUserDate = LocalDateTime.now();
+        this.passwordUpdateDate = LocalDateTime.now();
+        this.deleteUserDate = null;
     }
 }

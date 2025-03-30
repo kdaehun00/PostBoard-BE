@@ -1,11 +1,9 @@
 package com.example.demo.post.dto;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class CreatePostRequestDto {
 
     private Long userId;

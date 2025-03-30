@@ -6,15 +6,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
 @Entity
 @Table(name = "Comments")
-@Transactional
 public class Comment {
 
     @Id
@@ -22,19 +19,21 @@ public class Comment {
     @Column(name = "id")
     private Long commentId;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Setter
     @Column(name = "comment")
     private String content;
 
     @CreationTimestamp
     @Column(name = "create_date")
     private LocalDateTime createDate;
-
 }

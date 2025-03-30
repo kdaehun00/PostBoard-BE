@@ -7,10 +7,9 @@ import com.example.demo.post.dto.PostResponseDto;
 import com.example.demo.post.enums.PostMessage;
 import com.example.demo.post.repository.JPAPostRepository;
 import com.example.demo.post.repository.JPAUserLikeToPostRepository;
-import com.example.demo.user.domain.User;
-import com.example.demo.user.enums.UserIdPwMessage;
 import com.example.demo.user.repository.JPAUserRepository;
-import org.springframework.cache.annotation.CachePut;
+import com.example.demo.post.utils.GetPost;
+import com.example.demo.user.utils.GetUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +21,15 @@ public class PostQueryService {
     JPAPostRepository jpaPostRepository;
     JPAUserRepository jpaUserRepository;
     JPAUserLikeToPostRepository jpaUserLikeToPostRepository;
+    GetPost getPost;
+    GetUser getUser;
 
     public PostQueryService(JPAPostRepository jpaPostRepository, JPAUserRepository jpaUserRepository,JPAUserLikeToPostRepository jpaUserLikeToPostRepository) {
         this.jpaPostRepository = jpaPostRepository;
         this.jpaUserRepository = jpaUserRepository;
         this.jpaUserLikeToPostRepository = jpaUserLikeToPostRepository;
+        this.getPost = new GetPost(jpaPostRepository);
+        this.getUser = new GetUser(jpaUserRepository);
     }
 
     public List<PostResponseDto> lookUpPost() {
@@ -43,20 +46,9 @@ public class PostQueryService {
 
     // 초기 게시물 Like 수와 내가 좋아요를 눌렀는지 확인
     public LikeViewResponseDto checkLikeStatusToPost(Long postId, Long userId) {
-        boolean likes = jpaUserLikeToPostRepository.existsByUserAndPost(getByUser(userId), getByPost(postId));
-        long countLike = jpaUserLikeToPostRepository.countByPost(getByPost(postId));
+        boolean likes = jpaUserLikeToPostRepository.existsByUserAndPost(getUser.getUserById(userId), getPost.getPostById(postId));
+        long countLike = jpaUserLikeToPostRepository.countByPost(getPost.getPostById(postId));
         return new LikeViewResponseDto(likes, countLike);
     }
 
-
-    public User getByUser(Long userId) {
-        return jpaUserRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(UserIdPwMessage.NON_EXIST_USER.getMessage()));
-    }
-
-    @CachePut(value = "postCache", key = "#postId")
-    public Post getByPost(Long postId) {
-        return jpaPostRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException(PostMessage.NON_EXIST_POST.getMessage()));
-    }
 }
