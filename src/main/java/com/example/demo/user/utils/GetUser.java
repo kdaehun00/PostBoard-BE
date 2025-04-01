@@ -3,17 +3,14 @@ package com.example.demo.user.utils;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.enums.UserIdPwMessage;
 import com.example.demo.user.repository.JPAUserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class GetUser {
-    JPAUserRepository jpaUserRepository;
-
-    @Autowired
-    public GetUser(JPAUserRepository jpaUserRepository) {
-        this.jpaUserRepository = jpaUserRepository;
-    }
+    private final JPAUserRepository jpaUserRepository;
 
     public User getUserById(long userId){
         return jpaUserRepository.findById(userId)

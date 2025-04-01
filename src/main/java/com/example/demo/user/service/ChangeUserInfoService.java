@@ -11,7 +11,8 @@ import com.example.demo.user.dto.UserApiResponseDto;
 
 //framework
 import com.example.demo.user.utils.GetUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,16 +20,12 @@ import java.time.LocalDateTime;
 
 
 @Service
+@RequiredArgsConstructor
 public class ChangeUserInfoService {
 
-    JPAUserRepository jpaUserRepository;
-    GetUser getUser;
-
-    @Autowired
-    public ChangeUserInfoService(JPAUserRepository jpaUserRepository, GetUser getUser) {
-        this.jpaUserRepository = jpaUserRepository;
-        this.getUser = getUser;
-    }
+    private final JPAUserRepository jpaUserRepository;
+    private final GetUser getUser;
+    private final PasswordEncoder passwordEncoder;
 
     // 사용자 정보 변경시 기존 정보 가져오기
     /* 실제로는 로그인시 사용자의 정보를 다 넘겨서 프론트에서 localStorage에 저장한 뒤, 그 정보를 가져다가 쓰는데
@@ -57,7 +54,10 @@ public class ChangeUserInfoService {
     @Transactional
     public void changeUserInfoPassword(Long userId, ChangeUserInfoRequestDTO userInfoDTO) {
         User user = getUser.getUserById(userId);
-        user.setPassword(userInfoDTO.getNewPassword());
+        if(user.getPassword().equals(userInfoDTO.getCurrentPassword())) {
+            throw new IllegalArgumentException(UserIdPwMessage.WRONG_PASSWORD.getMessage());
+        }
+        user.setPassword(passwordEncoder.encode(userInfoDTO.getNewPassword()));
         user.setPasswordUpdateDate(LocalDateTime.now());
     }
 }

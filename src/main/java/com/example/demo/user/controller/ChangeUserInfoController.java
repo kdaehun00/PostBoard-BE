@@ -6,7 +6,7 @@ import com.example.demo.user.dto.UserApiResponseDto;
 import com.example.demo.user.service.ChangeUserInfoService;
 
 // Framework
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,19 +15,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/users")
+@RequiredArgsConstructor
 public class ChangeUserInfoController {
-    ChangeUserInfoService changeUserInfoService;
+    private final ChangeUserInfoService changeUserInfoService;
 
-    @Autowired
-    public ChangeUserInfoController(ChangeUserInfoService changeUserInfoService) {
-        this.changeUserInfoService = changeUserInfoService;
-    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserApiResponseDto> getUserInfo(@PathVariable Long userId) {
         return ResponseEntity.ok().body(changeUserInfoService.getUserInfo(userId));
     }
-
 
 
     @PutMapping("/{userId}/info/nickname")

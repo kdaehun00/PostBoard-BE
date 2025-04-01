@@ -38,8 +38,8 @@ public class PostQueryService {
     }
 
 
-    public PostResponseDto getPostDetail(String userName, String postSlug) {
-        Post post = jpaPostRepository.findByUser_NicknameAndSlug(userName, postSlug)
+    public PostResponseDto getPostDetail(long userId, String postSlug) {
+        Post post = jpaPostRepository.findByuserIdAndSlug(userId, postSlug)
                 .orElseThrow(() -> new IllegalArgumentException(PostMessage.NON_EXIST_POST.getMessage()));
         return new PostResponseDto(post);
     }

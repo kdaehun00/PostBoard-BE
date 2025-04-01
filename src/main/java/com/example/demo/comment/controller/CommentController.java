@@ -23,6 +23,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<Void> createComment(@PathVariable Long postId,
                                                                  @RequestBody CreateCommentRequestDto createCommentRequestDto) {
+
         commentService.createComment(postId, createCommentRequestDto);
         return ResponseEntity.noContent().build();
     }

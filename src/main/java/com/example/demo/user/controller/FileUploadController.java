@@ -2,6 +2,7 @@ package com.example.demo.user.controller;
 
 import com.example.demo.user.dto.UserApiResponseDto;
 import com.example.demo.user.service.FileUploadService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -17,13 +18,11 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping
+@RequiredArgsConstructor
 public class FileUploadController {
 
     private final FileUploadService fileUploadService;
 
-    public FileUploadController(FileUploadService fileUploadService) {
-        this.fileUploadService = fileUploadService;
-    }
 
     @PostMapping("/users/images-upload")
     public ResponseEntity<UserApiResponseDto> uploadFile(@RequestParam("file") MultipartFile file) {

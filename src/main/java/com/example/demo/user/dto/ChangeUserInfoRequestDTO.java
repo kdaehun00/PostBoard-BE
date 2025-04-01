@@ -14,6 +14,9 @@ public class ChangeUserInfoRequestDTO {
 
     @JsonProperty("profileImg")
     private String profileImg;
+
     private String currentPassword;
+
+    @JsonProperty("newPassword")
     private String newPassword;
 }

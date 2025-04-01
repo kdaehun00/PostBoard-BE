@@ -1,17 +1,15 @@
 package com.example.demo.post.utils;
 
 import com.example.demo.post.repository.JPAPostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PostSlug {
-    JPAPostRepository jpaPostRepository;
+    private final JPAPostRepository jpaPostRepository;
 
-    @Autowired
-    public PostSlug(JPAPostRepository jpaPostRepository) {
-        this.jpaPostRepository = jpaPostRepository;
-    }
 
     public String toSlug(String title) {// 공백 -> 하이픈
         return title.toLowerCase()
